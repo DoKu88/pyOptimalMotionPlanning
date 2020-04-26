@@ -145,6 +145,7 @@ class KinodynamicSpace (ControlSpace):
         return MultiSet(TimeBiasSet(self.dtmax,self.dspace.controlSet(x)),self.dspace.controlSet(x))
         #return MultiSet(BoxSet([0],[self.dtmax]),self.dspace.controlSet(x))
     def trajectory(self,x,u):
+        print("u: ", u)
         duration = u[0]
         ub = u[1:]
         path = [x]
