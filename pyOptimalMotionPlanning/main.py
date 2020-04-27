@@ -23,7 +23,7 @@ def mkdir_p(path):
 def testPlannerDefault(problem,problemName,maxTime,plannerType,**plannerParams):
     global numTrials
     print("Planning with",plannerType,'on problem',problemName)
-    import pdb; pdb.set_trace()
+    #import pdb; pdb.set_trace()
     planner = problem.planner(plannerType,**plannerParams)
     folder = os.path.join("data",problemName)
     mkdir_p(folder)

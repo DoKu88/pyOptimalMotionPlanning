@@ -41,7 +41,7 @@ class DoubleIntegratorVisualizer:
         self.base.drawInterpolatorGL(interpolator)
 
 
-def doubleIntegratorTest(start_coord, goal_coord):
+def doubleIntegratorTest(start_coord=[0.06, 0.25], goal_coord=[0.94, 0.25]):
     cspace = Geometric2DCSpace()
     # add obstacles here:
     #cspace.addObstacle(Circle(0.5,0.5,0.1))

@@ -5,7 +5,7 @@ from builtins import range
 from .profiler import Profiler
 import time
 
-def testPlanner(planner,numTrials,maxTime,filename):    
+def testPlanner(planner,numTrials,maxTime,filename):
     print("Testing planner for %d trials, %f seconds"%(numTrials,maxTime))
     print("Saving to",filename)
     f = open(filename,'w')
@@ -38,6 +38,7 @@ def testPlanner(planner,numTrials,maxTime,filename):
                 numupdates += 1
                 curCost = planner.bestPathCost
                 t1 = time.time()
+                #import pdb; pdb.set_trace()
                 f.write(str(trial)+","+str(iters)+","+str(t1-t0)+","+str(curCost)+'\n')
         if hasattr(planner,'stats'):
             print
