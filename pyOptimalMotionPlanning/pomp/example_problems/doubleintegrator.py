@@ -8,9 +8,18 @@ from ..spaces.metric import *
 from ..spaces.biassets import BoxBiasSet
 from ..planners.problem import PlanningProblem
 
+GOAL_RADIUS = 0.01
+DT = 0.05
+DT_MAX = 0.5
+
 class DoubleIntegratorVisualizer:
-    def __init__(self,workspace):
+    def __init__(self, workspace=Geometric2DCSpace()):
         self.base = workspace
+        self.vspace = BoxConfigurationSpace([-1, -1], [1, 1])
+        self.aspace = BoxSet([-5, -5], [5, 5])
+        self.aspace.box = BoxBiasSet(self.aspace.bmin, self.aspace.bmax, 10)
+        self.objective = TimeObjectiveFunction()
+
 
     def toScreen(self,q):
         return q[0],q[1]
@@ -40,6 +49,23 @@ class DoubleIntegratorVisualizer:
     def drawInterpolatorGL(self,interpolator):
         self.base.drawInterpolatorGL(interpolator)
 
+    def add_obstacle(self, x_i, y_i, x_f, y_f):
+        """ Adds obstacle to the cspace.
+        Args:
+            x_i, y_i, x_f, y_f (floats between 0 and 1)
+        Returns: None """
+        self.cspace.addObstacle(Box(x_i, y_i, x_f, y_f))
+
+    def get_planning_problem(self, start, goal):
+        control_space = CVControlSpace(self.base, self.vspace, self.aspace,
+                                       dt=DT, dtmax=DT_MAX)
+        return PlanningProblem(control_space, start, goal,
+                               objective=self.objective,
+                               visualizer=self,
+                               goalRadius=GOAL_RADIUS,
+                               euclidean=True)
+
+
 
 def doubleIntegratorTest(start_coord=[0.06, 0.25], goal_coord=[0.94, 0.25]):
     cspace = Geometric2DCSpace()
@@ -55,10 +81,12 @@ def doubleIntegratorTest(start_coord=[0.06, 0.25], goal_coord=[0.94, 0.25]):
     vspace = BoxConfigurationSpace([-1,-1],[1,1])
     aspace = BoxSet([-5,-5],[5,5])
     aspace.box = BoxBiasSet(aspace.bmin,aspace.bmax,10)
+
     #start = [0.06,0.25,0,0]
     #goal = [0.94,0.25,0,0]
     start = [start_coord[0], start_coord[1], 0, 0]
     goal = [goal_coord[0], goal_coord[1], 0, 0]
+
     objective = TimeObjectiveFunction()
     goalRadius = 0.2
     controlSpace = CVControlSpace(cspace,vspace,aspace,dt=0.05,dtmax=0.5)
@@ -75,3 +103,4 @@ def doubleIntegratorTest(start_coord=[0.06, 0.25], goal_coord=[0.94, 0.25]):
                           euclidean = True)
     #import pdb; pdb.set_trace()
     return plan_prob
+

@@ -67,9 +67,9 @@ class GLProgram:
     def run(self):
         """Starts the main loop"""
         # Initialize Glut
-        glutInit ([])
+        glutInit([])
         self.initWindow()
-        glutMainLoop ()
+        glutMainLoop()
 
     def initialize(self):
         """Called after GLUT is initialized, but before main loop.

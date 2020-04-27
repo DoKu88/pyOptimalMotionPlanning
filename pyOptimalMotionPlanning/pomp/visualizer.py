@@ -31,7 +31,7 @@ class PlanVisualizationProgram(GLProgram):
         G (pair (V,E)): the roadmap for the planner.
         painted, save_movie, movie_frame: used for drawing / saving movies.
     """
-    def __init__(self,problem,planner,plannerFilePrefix):
+    def __init__(self, problem, planner, plannerFilePrefix):
         GLProgram.__init__(self)
         self.problem = problem
         self.planner = planner
