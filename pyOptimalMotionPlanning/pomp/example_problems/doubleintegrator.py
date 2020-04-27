@@ -67,19 +67,40 @@ class DoubleIntegratorVisualizer:
 
 
 
-def doubleIntegratorTest():
+def doubleIntegratorTest(start_coord=[0.06, 0.25], goal_coord=[0.94, 0.25]):
     cspace = Geometric2DCSpace()
-    #cspace.addObstacle(Circle(0.5,0.4,0.39))
+    # add obstacles here:
+    #cspace.addObstacle(Circle(0.5,0.5,0.1))
+    cspace.addObstacle(Box(0.4166, 0.98333, 0.42, 0.5666))
+    cspace.addObstacle(Box(0.4166, 0.43333, 0.42, 0.0166))
+    cspace.addObstacle(Box(0.5833, 0.98333, 0.59, 0.7))
+    cspace.addObstacle(Box(0.5833, 0.61666, 0.59, 0.3833))
+    cspace.addObstacle(Box(0.5833, 0.3, 0.59, 0.0166))
+
+
     vspace = BoxConfigurationSpace([-1,-1],[1,1])
     aspace = BoxSet([-5,-5],[5,5])
     aspace.box = BoxBiasSet(aspace.bmin,aspace.bmax,10)
-    start = [0.06, 0.25, 0, 0]
-    goal = [0.94,0.25,0,0]
+
+    #start = [0.06,0.25,0,0]
+    #goal = [0.94,0.25,0,0]
+    start = [start_coord[0], start_coord[1], 0, 0]
+    goal = [goal_coord[0], goal_coord[1], 0, 0]
+
     objective = TimeObjectiveFunction()
     goalRadius = 0.2
     controlSpace = CVControlSpace(cspace,vspace,aspace,dt=0.05,dtmax=0.5)
-    return PlanningProblem(controlSpace,start,goal,
+    '''return PlanningProblem(controlSpace,start,goal,
                            objective=objective,
                            visualizer=DoubleIntegratorVisualizer(cspace),
-                           goalRadius=goalRadius,
-                           euclidean=True)
+                           goalRadius = goalRadius,
+                           euclidean = True)'''
+
+    plan_prob = PlanningProblem(controlSpace,start,goal,
+                          objective=objective,
+                          visualizer=DoubleIntegratorVisualizer(cspace),
+                          goalRadius = goalRadius,
+                          euclidean = True)
+    #import pdb; pdb.set_trace()
+    return plan_prob
+
